@@ -1,0 +1,179 @@
+import { Post, TriggerContext } from "@devvit/public-api";
+import { logger } from "../../../logger";
+import { AppSetting } from "../../../settings";
+
+//todo: get chatgpt to make this usable with flairforge
+export async function addPostFlair(
+    _: unknown,
+    context: TriggerContext
+): Promise<void> {
+    const settings = await context.settings.getAll();
+
+    const enablePostFlair =
+        (settings[AppSetting.EnablePostFlair] as boolean) ?? false;
+
+    if (!enablePostFlair) {
+        logger.error(`Post Flairing is not enabled`);
+        return;
+    }
+
+    // const trackingPage =
+    //     (settings[AppSetting.PostOfTheMonthPage] as string) ??
+    //     "/postqualitytracker";
+
+    const postFlairText =
+        (settings[AppSetting.PostFlairValue] as string) ?? "";
+
+    let postCSSClass =
+        (settings[AppSetting.PostFlairCSSClass] as string) ?? "";
+    const postFlairTemplate =
+        (settings[AppSetting.PostFlairTemplateId] as string) ?? "";
+
+    if (postFlairTemplate) postCSSClass = "";
+
+    if (!postFlairText) {
+        logger.warn("❌ No Post flair configuration set");
+        return;
+    }
+
+    const subreddit = await context.reddit.getCurrentSubreddit();
+    const subredditName = subreddit.name;
+
+    // const safeWiki = new SafeWikiClient(context.reddit);
+
+    // let existingPage;
+    // try {
+    //     existingPage = await safeWiki.getWikiPage(subredditName, trackingPage);
+    // } catch {
+    //     existingPage = undefined;
+    // }
+
+    // const initialContent = `# `;
+    // if (!existingPage) {
+    //     await safeWiki.createWikiPage({
+    //         subredditName,
+    //         page: trackingPage,
+    //         content: initialContent,
+    //         reason: "Creating initial wiki page for Post Flair",
+    //     });
+    //     logger.info(`Created initial tracking page`, { trackingPage });
+    // }
+
+    // let content = existingPage?.contentMd?.trim() ?? "#";
+    // if (!content || content === "# ") {
+    //     logger.info("ℹ️ Post Flair tracker is empty");
+    //     content = "| Date | Post | Author |\n|--------|------|------|\n";
+    // }
+
+    // ──────────────── FETCH TOP POSTS THIS MONTH ────────────────
+    const topPostsListing = context.reddit.getTopPosts({
+        timeframe: "month",
+        subredditName,
+        limit: 50,
+    });
+
+    if (!topPostsListing) {
+        logger.info("ℹ️ No posts found in the top monthly filter");
+        return;
+    }
+
+    // Get all posts from the Listing
+    const allPosts: Post[] = await topPostsListing.all();
+
+    if (!allPosts || allPosts.length === 0) {
+        logger.info("ℹ️ No posts available in top monthly listing");
+        return;
+    }
+
+    // ──────────────── LOG NEW POSTS ────────────────
+    // for (const post of allPosts) {
+    //     const seenKey = `potm:seen-posts:${post.id}`;
+    //     const alreadySeen = await context.redis.exists(seenKey);
+    //     if (!alreadySeen) {
+    //         await context.redis.set(seenKey, "1");
+    //         logger.info("🆕 New Post Flair entry detected", {
+    //             postId: post.id,
+    //             score: post.score,
+    //             author: post.authorName,
+    //         });
+    //     }
+    // }
+
+    // if (allPosts.length === 0) {
+    //     logger.info("ℹ️ No new posts to add to the Post Flair table");
+    // }
+
+    // ──────────────── PICK WINNER BY HIGHEST SCORE ────────────────
+    const winnerPost = allPosts.reduce((prev, curr) =>
+        curr.score > prev.score ? curr : prev
+    );
+
+    logger.info("🏆 Post worthy of flair selected based on upvotes", {
+        postId: winnerPost.id,
+        permalink: winnerPost.permalink,
+        score: winnerPost.score,
+    });
+
+    // Apply flair
+    await context.reddit.setPostFlair({
+        subredditName,
+        postId: winnerPost.id,
+        text: postOfTheMonthFlairText,
+        cssClass: postOfTheMonthCSSClass,
+        flairTemplateId: postOfTheMonthFlairTemplate,
+    });
+
+    logger.info("🏷️ Post flair applied", {
+        postId: winnerPost.id,
+        postOfTheMonthFlairText,
+        postOfTheMonthFlairTemplate,
+        cssClass: postOfTheMonthCSSClass,
+    });
+
+    // TODO: FIX THIS IF IT SEEMS NECESSARY TO DO SO
+    // // ──────────────── APPEND NEW POSTS TO WIKI TABLE ────────────────
+    // for (const post of allPosts) {
+    //     const now = new Date();
+    //     const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+    //     const day = String(now.getUTCDate()).padStart(2, "0");
+    //     const year = now.getUTCFullYear();
+    //     const date = `${month}-${day}-${year}`; // MM-DD-YYYY
+
+    //     const postLink = `https://reddit.com${post.permalink}`;
+    //     const authorName = post.authorName;
+
+    //     // content += `| ${date} | [${post.title}](${postLink}) | /u/${authorName} |\n`;
+    //     content += `| 02-05-2026 | test2 | /u/${authorName} |\n`;
+    // }
+
+    // // ──────────────── CREATE OR UPDATE WIKI PAGE ────────────────
+    // try {
+    //     if (!existingPage) {
+    //         await safeWiki.createWikiPage({
+    //             subredditName,
+    //             page: trackingPage,
+    //             content,
+    //             reason: "Initial Post Flair wiki page setup",
+    //         });
+    //         logger.info("✅ Created Post Flair wiki page", {
+    //             trackingPage,
+    //         });
+    //     } else {
+    //         await context.reddit.updateWikiPage({
+    //             subredditName,
+    //             page: trackingPage,
+    //             content,
+    //             reason: `Append new Post Flair entry`,
+    //         });
+    //         logger.info("✅ Post Flair wiki page updated", {
+    //             trackingPage,
+    //             newPosts: allPosts.map(p => p.id),
+    //         });
+    //     }
+    // } catch (err) {
+    //     logger.error("❌ Failed to create/update Post Flair wiki page", {
+    //         trackingPage,
+    //         error: String(err),
+    //     });
+    // }
+}

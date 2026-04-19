@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developers.reddit.com/schema/config-file.v1.json",
+  "name": "flairforge",
+  "post": {
+    "dir": "dist/client",
+    "entrypoints": {
+      "default": {
+        "inline": true,
+        "entry": "leaderboard.html",
+        "height": "tall"
+      }
+    }
+  },
+  "server": {
+    "dir": "dist/server",
+    "entry": "index.cjs"
+  },
+  "blocks": {
+    "entry": "src/blocks/main.ts",
+    "triggers": [
+      "onAppInstall",
+      "onAppUpgrade"
+    ]
+  },
+  "media": {
+    "dir": "assets"
+  },
+  "menu": {
+    "items": [
+      {
+        "label": "Submit Leaderboard Post",
+        "description": "FlairForge",
+        "forUserType": "moderator",
+        "location": "subreddit",
+        "endpoint": "/internal/menu/create-post"
+      }
+    ]
+  },
+  "forms": {
+    "post-create-form": "/internal/form/create-post"
+  }
+}
