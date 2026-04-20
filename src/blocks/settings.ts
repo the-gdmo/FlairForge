@@ -6,162 +6,224 @@ import {
 
 export enum AppSetting {
     EnablePostFlair = "enablePostFlair",
-    PostFlairCron = "postFlairCron",
-    NotifyOnCronUpdateSuccess = "notifyOnCronUpdateSuccess",
-    CronUpdateSuccessMessage = "cronUpdateSuccessMessage",
-    NotifyOnCronUpdateFail = "notifyOnCronUpdateFail",
-    CronUpdateFailMessage = "cronUpdateFailMessage",
-    // PostFlairTimeframe = "postFlairTimeframe",
+    PostFlairTimeframe = "postFlairTimeframe",
     EnableUserFlair = "enableUserFlair",
-    UserFlairCron = "userFlairCron",
-    // UserFlairTimeframe = "userFlairTimeframe",
-    PostFlairValue = "postFlairValue",
-    UserFlairValue = "userFlairValue",
-    UserFlairTemplateId = "userFlairTemplateId",
+    UserFlairTimeframe = "userFlairTimeframe",
+    PostFlairText = "postFlairValue",
+    UserFlairText = "userFlairValue",
+    UserFlairTemplateID = "userFlairTemplateID",
     UserFlairCSSClass = "userFlairCSSClass",
-    PostFlairTemplateId = "postFlairTemplateId",
+    PostFlairTemplateID = "postFlairTemplateID",
     PostFlairCSSClass = "postFlairCSSClass",
     NotifyOnPostFlairSuccess = "notifyOnPostFlairSuccess",
-    PostFlairSuccessMessage = "postFlairSuccessMessage",
+    PostFlairAwardSuccess = "postFlairAwardSuccess",
     NotifyOnPostFlairFail = "notifyOnPostFlairFail",
-    PostFlairFailMessage = "postFlairFailMessage",
-    NotifyOnUserFlairSuccess = "notifyOnUserFlairSuccess",
-    UserFlairSuccessMessage = "userFlairSuccessMessage",
-    NotifyOnUserFlairFail = "notifyOnUserFlairFail",
-    UserFlairFailMessage = "userFlairFailMessage",
+    PostFlairAwardFail = "postFlairAwardFail",
+    NotifyOnPostFlairCronUpdateSuccess = "notifyOnPostFlairCronUpdateSuccess",
+    PostFlairCronUpdateSuccessMessage = "postFlairCronUpdateSuccessMessage",
+    NotifyOnPostFlairCronUpdateFail = "notifyOnPostFlairCronUpdateFail",
+    PostFlairCronUpdateFailMessage = "postFlairCronUpdateFailMessage",
+    NotifyOnUserFlairAwardSuccess = "notifyOnUserFlairAwardSuccess",
+    UserFlairAwardSuccessMessage = "userFlairAwardSuccessMessage",
+    NotifyOnUserFlairAwardFail = "notifyOnUserFlairAwardFail",
+    UserFlairAwardFailMessage = "userFlairAwardFailMessage",
+    NotifyOnUserFlairCronUpdateSuccess = "notifyOnUserFlairCronUpdateSuccess",
+    UserFlairCronUpdateSuccessMessage = "userFlairCronUpdateSuccessMessage",
+    NotifyOnUserFlairCronUpdateFail = "notifyOnUserFlairCronUpdateFail",
+    UserFlairCronUpdateFailMessage = "userFlairCronUpdateFailMessage",
+    PostFlairCronUpdateCommand = "postFlairCronUpdateCommand",
+    UserFlairCronUpdateCommand = "userFlairCronUpdateCommand",
 }
 
 export enum TemplateDefaults {
-    UserFlairFailMessage = "u/{{awardee}}'s flair was unable to be set on [this post]({{permalink}}).",
-    UserFlairSuccessMessage = "{{week}} has been added to u/{{awardee}}'s flair. New flair: **{{awardeeFlair}}**.",
-    PostFlairFailMessage = "[This post]({{permalink}})'s flair was unable to be set to **{{postFlairValue}}**.",
-    PostFlairSuccessMessage = "[{{title}}]({{permalink}})'s flair has been set to **{{postFlairValue}}**",
-    //todo: update the below messages
-    CronUpdateFailMessage = "",
-    CronUpdateSuccessMessage = "",
+    PostFlairAwardSuccessMessage = "[This post]({{permalink}})'s flair was set to {{postFlairValue}}.",
+    PostFlairAwardFailMessage = "[This post]({{permalink}})'s flair was unable to be set. Error:\n\n> {{error}}.",
+    PostFlairCronUpdateSuccessMessage = "u/{{cronUpdater}} has successfully updated the cron for post flairing to **{{newCron}}**.",
+    PostFlairCronUpdateFailMessage = "u/{{cronUpdater}} was unable to update the post flair cron. Error:\n\n> {{error}}",
+    UserFlairAwardSuccessMessage = "**{{timeframe}}** was appended to u/{{awardee}}'s flair. New Flair: **{{awardeeFlair}}**.",
+    UserFlairAwardFailMessage = "u/{{awardee}}'s flair was unable to be set on [this post]({{permalink}}).",
+    UserFlairCronUpdateSuccessMessage = "u/{{cronUpdater}} has successfully updated the cron for user flairing to **{{newCron}}**.",
+    UserFlairCronUpdateFailMessage = "u/{{cronUpdater}} was unable to update the user flair cron. Error:\n\n> {{error}}",
 }
 
-// export enum PostFlairTimeframes {
-//     Off = "off",
-//     Hourly = "hourly",
-//     Daily = "daily",
-//     Weekly = "weekly",
-//     Monthly = "monthly",
-//     Yearly = "yearly"
-// }
-
-// export const PostFlairTimeFrameOptionChoices = [
-//     {
-//         name: "Disabled",
-//         value: PostFlairTimeframes.Off,
-//     },
-//     {
-//         name: "Hourly",
-//         value: PostFlairTimeframes.Hourly,
-//     },
-//     {
-//         name: "Daily",
-//         value: PostFlairTimeframes.Daily,
-//     },
-//     {
-//         name: "Weekly",
-//         value: PostFlairTimeframes.Weekly,
-//     },
-//     {
-//         name: "Monthly",
-//         value: PostFlairTimeframes.Monthly,
-//     },
-//     {
-//         name: "Yearly",
-//         value: PostFlairTimeframes.Yearly,
-//     },
-// ]
-
-// export enum UserFlairTimeframes {
-//     Off = "off",
-//     Hourly = "hourly",
-//     Daily = "daily",
-//     Weekly = "weekly",
-//     Monthly = "monthly",
-//     Yearly = "yearly"
-// }
-
-// export const UserFlairTimeFrameOptionChoices = [
-//     {
-//         name: "Disabled",
-//         value: UserFlairTimeframes.Off,
-//     },
-//     {
-//         name: "Hourly",
-//         value: UserFlairTimeframes.Hourly,
-//     },
-//     {
-//         name: "Daily",
-//         value: UserFlairTimeframes.Daily,
-//     },
-//     {
-//         name: "Weekly",
-//         value: UserFlairTimeframes.Weekly,
-//     },
-//     {
-//         name: "Monthly",
-//         value: UserFlairTimeframes.Monthly,
-//     },
-//     {
-//         name: "Yearly",
-//         value: UserFlairTimeframes.Yearly,
-//     },
-// ]
-
-export enum PostFlairCronUpdateNotification {
-    Off = "none",
-    ReplyByPM = "replybypm",
-    ReplyAsComment = "replybycomment",
-    NotifyMods = "notifymods",
+export enum PostFlairTimeframes {
+    Off = "off",
+    Hourly = "hourly",
+    Daily = "daily",
+    Weekly = "weekly",
+    Monthly = "monthly",
+    Yearly = "yearly",
 }
 
-export const PostFlairCronUpdateNotificationOptionChoices = [
+export const PostFlairTimeframeOptionChoices = [
     {
-        name: "No Notification",
-        value: PostFlairCronUpdateNotification.Off,
+        label: "Disabled",
+        value: PostFlairTimeframes.Off,
     },
     {
-        name: "Send user a private message",
-        value: PostFlairCronUpdateNotification.ReplyByPM,
+        label: "Hourly",
+        value: PostFlairTimeframes.Hourly,
     },
     {
-        name: "Reply as comment",
-        value: PostFlairCronUpdateNotification.ReplyAsComment,
+        label: "Daily",
+        value: PostFlairTimeframes.Daily,
     },
     {
-        name: "Send a modmail",
-        value: PostFlairCronUpdateNotification.NotifyMods,
+        label: "Weekly",
+        value: PostFlairTimeframes.Weekly,
+    },
+    {
+        label: "Monthly",
+        value: PostFlairTimeframes.Monthly,
+    },
+    {
+        label: "Yearly",
+        value: PostFlairTimeframes.Yearly,
     },
 ];
 
-export enum UserFlairCronUpdateNotification {
+export enum UserFlairTimeframes {
+    Off = "off",
+    Hourly = "hourly",
+    Daily = "daily",
+    Weekly = "weekly",
+    Monthly = "monthly",
+    Yearly = "yearly",
+}
+
+export const UserFlairTimeframeOptionChoices = [
+    {
+        label: "Disabled",
+        value: UserFlairTimeframes.Off,
+    },
+    {
+        label: "Hourly",
+        value: UserFlairTimeframes.Hourly,
+    },
+    {
+        label: "Daily",
+        value: UserFlairTimeframes.Daily,
+    },
+    {
+        label: "Weekly",
+        value: UserFlairTimeframes.Weekly,
+    },
+    {
+        label: "Monthly",
+        value: UserFlairTimeframes.Monthly,
+    },
+    {
+        label: "Yearly",
+        value: UserFlairTimeframes.Yearly,
+    },
+];
+
+export enum PostFlairCronUpdateSuccessNotification {
     Off = "none",
     ReplyByPM = "replybypm",
     ReplyAsComment = "replybycomment",
     NotifyMods = "notifymods",
 }
 
-export const UserFlairCronUpdateNotificationOptionChoices = [
+// const ExistingFlairHandlingOptionChoices = [
+//     {
+//         label: "Set flair to new score, if flair unset or flair is numeric (With Symbol)",
+//         value: ExistingFlairOverwriteHandling.OverwriteNumericSymbol,
+//     },
+//     {
+//         label: "Set flair to new score, if flair unset or flair is numeric (Without Symbol)",
+//         value: ExistingFlairOverwriteHandling.OverwriteNumeric,
+//     },
+//     {
+//         label: "Never set flair",
+//         value: ExistingFlairOverwriteHandling.NeverSet,
+//     },
+// ];
+
+export const PostFlairCronUpdateSuccessNotificationOptionChoices = [
     {
-        name: "No Notification",
-        value: UserFlairCronUpdateNotification.Off,
+        label: "No Notification",
+        value: PostFlairCronUpdateSuccessNotification.Off,
     },
     {
-        name: "Send user a private message",
-        value: UserFlairCronUpdateNotification.ReplyByPM,
+        label: "Send user a private message",
+        value: PostFlairCronUpdateSuccessNotification.ReplyByPM,
     },
     {
-        name: "Reply as comment",
-        value: UserFlairCronUpdateNotification.ReplyAsComment,
+        label: "Reply as comment",
+        value: PostFlairCronUpdateSuccessNotification.ReplyAsComment,
     },
     {
-        name: "Send a modmail",
-        value: UserFlairCronUpdateNotification.NotifyMods,
+        label: "Send a modmail",
+        value: PostFlairCronUpdateSuccessNotification.NotifyMods,
+    },
+];
+
+export enum PostFlairCronUpdateFailNotification {
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+    NotifyMods = "notifymods",
+}
+
+export const PostFlairCronUpdateFailNotificationOptionChoices = [
+    {
+        label: "Send user a private message",
+        value: PostFlairCronUpdateFailNotification.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: PostFlairCronUpdateFailNotification.ReplyAsComment,
+    },
+    {
+        label: "Send a modmail",
+        value: PostFlairCronUpdateFailNotification.NotifyMods,
+    },
+];
+
+export enum UserFlairCronUpdateSuccessNotification {
+    Off = "none",
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+    NotifyMods = "notifymods",
+}
+
+export const UserFlairCronUpdateSuccessNotificationOptionChoices = [
+    {
+        label: "No Notification",
+        value: UserFlairCronUpdateSuccessNotification.Off,
+    },
+    {
+        label: "Send user a private message",
+        value: UserFlairCronUpdateSuccessNotification.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: UserFlairCronUpdateSuccessNotification.ReplyAsComment,
+    },
+    {
+        label: "Send a modmail",
+        value: UserFlairCronUpdateSuccessNotification.NotifyMods,
+    },
+];
+
+export enum UserFlairCronUpdateFailNotification {
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+    NotifyMods = "notifymods",
+}
+
+export const UserFlairCronUpdateFailNotificationOptionChoices = [
+    {
+        label: "Send user a private message",
+        value: UserFlairCronUpdateFailNotification.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: UserFlairCronUpdateFailNotification.ReplyAsComment,
+    },
+    {
+        label: "Send a modmail",
+        value: UserFlairCronUpdateFailNotification.NotifyMods,
     },
 ];
 
@@ -177,31 +239,31 @@ export enum PostFlairDayOfWeek {
 
 export const PostFlairDayOfTheWeekOptionChoices = [
     {
-        name: "Sunday",
+        label: "Sunday",
         value: PostFlairDayOfWeek.Sunday,
     },
     {
-        name: "Monday",
+        label: "Monday",
         value: PostFlairDayOfWeek.Monday,
     },
     {
-        name: "Tuesday",
+        label: "Tuesday",
         value: PostFlairDayOfWeek.Tuesday,
     },
     {
-        name: "Wednesday",
+        label: "Wednesday",
         value: PostFlairDayOfWeek.Wednesday,
     },
     {
-        name: "Thursday",
+        label: "Thursday",
         value: PostFlairDayOfWeek.Thursday,
     },
     {
-        name: "Friday",
+        label: "Friday",
         value: PostFlairDayOfWeek.Friday,
     },
     {
-        name: "Saturday",
+        label: "Saturday",
         value: PostFlairDayOfWeek.Saturday,
     },
 ];
@@ -218,31 +280,31 @@ export enum UserFlairDayOfWeek {
 
 export const UserFlairDayOfTheWeekOptionChoices = [
     {
-        name: "Sunday",
+        label: "Sunday",
         value: UserFlairDayOfWeek.Sunday,
     },
     {
-        name: "Monday",
+        label: "Monday",
         value: UserFlairDayOfWeek.Monday,
     },
     {
-        name: "Tuesday",
+        label: "Tuesday",
         value: UserFlairDayOfWeek.Tuesday,
     },
     {
-        name: "Wednesday",
+        label: "Wednesday",
         value: UserFlairDayOfWeek.Wednesday,
     },
     {
-        name: "Thursday",
+        label: "Thursday",
         value: UserFlairDayOfWeek.Thursday,
     },
     {
-        name: "Friday",
+        label: "Friday",
         value: UserFlairDayOfWeek.Friday,
     },
     {
-        name: "Saturday",
+        label: "Saturday",
         value: UserFlairDayOfWeek.Saturday,
     },
 ];
@@ -268,120 +330,347 @@ export const NotifyOnPostFlairSuccessReplyOptionChoices = [
     },
 ];
 
-export enum UserFlairSuccessReplyOptions {
+export enum UserFlairAwardSuccessReplyOptions {
     NotifyMods = "notifymods",
     ReplyByPM = "replybypm",
     ReplyAsComment = "replybycomment",
 }
 
-export const NotifyOnUserFlairSuccessReplyOptionChoices = [
+export const NotifyOnUserFlairAwardSuccessReplyOptionChoices = [
     {
         label: "Send user a private message",
-        value: UserFlairSuccessReplyOptions.ReplyByPM,
+        value: UserFlairAwardSuccessReplyOptions.ReplyByPM,
     },
     {
         label: "Reply as comment",
-        value: UserFlairSuccessReplyOptions.ReplyAsComment,
+        value: UserFlairAwardSuccessReplyOptions.ReplyAsComment,
     },
     {
         label: "Send moderators a message",
-        value: UserFlairSuccessReplyOptions.NotifyMods,
+        value: UserFlairAwardSuccessReplyOptions.NotifyMods,
     },
 ];
 
-//end dah
-export enum PostFlairFailReplyOptions {
+export enum UserFlairAwardFailReplyOptions {
     NotifyMods = "notifymods",
     ReplyByPM = "replybypm",
     ReplyAsComment = "replybycomment",
 }
 
-export const NotifyOnPostFlairFailReplyOptionChoices = [
+export const NotifyOnUserFlairAwardFailReplyOptionChoices = [
     {
         label: "Send user a private message",
-        value: PostFlairFailReplyOptions.ReplyByPM,
+        value: UserFlairAwardFailReplyOptions.ReplyByPM,
     },
     {
         label: "Reply as comment",
-        value: PostFlairFailReplyOptions.ReplyAsComment,
+        value: UserFlairAwardFailReplyOptions.ReplyAsComment,
     },
     {
         label: "Send moderators a message",
-        value: PostFlairFailReplyOptions.NotifyMods,
+        value: UserFlairAwardFailReplyOptions.NotifyMods,
     },
 ];
 
-export enum UserFlairFailReplyOptions {
-    NotifyMods = "notifymods",
+export enum PostFlairUpdateFailReplyOptions {
+    Off = "none",
     ReplyByPM = "replybypm",
     ReplyAsComment = "replybycomment",
 }
 
-export const NotifyOnUserFlairFailReplyOptionChoices = [
+export const NotifyOnPostFlairUpdateFailReplyOptionChoices = [
+    {
+        label: "No Notification",
+        value: PostFlairUpdateFailReplyOptions.Off,
+    },
     {
         label: "Send user a private message",
-        value: UserFlairFailReplyOptions.ReplyByPM,
+        value: PostFlairUpdateFailReplyOptions.ReplyByPM,
     },
     {
         label: "Reply as comment",
-        value: UserFlairFailReplyOptions.ReplyAsComment,
+        value: PostFlairUpdateFailReplyOptions.ReplyAsComment,
+    },
+];
+
+export enum UserFlairUpdateFailReplyOptions {
+    Off = "none",
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+}
+
+export const NotifyOnUserFlairUpdateFailReplyOptionChoices = [
+    {
+        label: "No Notification",
+        value: UserFlairUpdateFailReplyOptions.Off,
     },
     {
-        label: "Send moderators a message",
-        value: UserFlairFailReplyOptions.NotifyMods,
+        label: "Send user a private message",
+        value: UserFlairUpdateFailReplyOptions.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: UserFlairUpdateFailReplyOptions.ReplyAsComment,
     },
 ];
 
 export const appSettings: SettingsFormField[] = [
-    // {
-    //     type: "group",
-    //     label: "Test label",
-    //     helpText:
-    //         "Testing label",
-    //     fields: [
-    //         {
-    //             name: "test",
-    //             type: "string",
-    //             label: "Test",
-    //             helpText: "Test",
-    //             defaultValue: "test",
-    //         },
-    //     ],
-    // },
     {
         type: "group",
         label: "Flair Settings",
-        helpText: "",
         fields: [
             {
                 name: AppSetting.EnablePostFlair,
                 type: "boolean",
-                label: "",
+                label: "Enable Post Flair?",
                 helpText: "Whether or not to enable post flairing capabilities",
                 defaultValue: true,
             },
             {
-                name: AppSetting.PostFlairCron,
+                name: AppSetting.PostFlairTimeframe,
+                type: "select",
+                label: "Post Flair Timeframe",
+                helpText:
+                    "What timeframe the bot should check to set flairs (eg hourly, daily, etc.)",
+                options: PostFlairTimeframeOptionChoices,
+                defaultValue: [PostFlairTimeframes.Monthly],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairText,
                 type: "string",
-                label: "Post Flair Cron",
-                helpText: "When this should run in cron time",
-                defaultValue: "0 0 1 * *",
-                onValidate: validateCron,
+                label: "Post Flair Text",
+                helpText:
+                    `It is recommended to end this with whatever timeframe you chose (eg, "Day", "Week", etc.)` +
+                    `followed by a space or something similar as this will continuously be incremented upwards` +
+                    `and will append new <timeframe>s (comma-separated) as they gain more`,
+                defaultValue: "Top Post Week ",
+                onValidate: stringFieldContainsText,
+            },
+            {
+                name: AppSetting.PostFlairTemplateID,
+                type: "string",
+                label: "Post Flair Template ID",
+                defaultValue: "",
+            },
+            {
+                name: AppSetting.PostFlairCSSClass,
+                type: "string",
+                label: "Post Flair CSS Class",
+                defaultValue: "",
             },
             {
                 name: AppSetting.EnableUserFlair,
                 type: "boolean",
-                label: "",
-                helpText: "",
+                label: "Enable User Flair?",
+                helpText: "Whether or not to enable user flairing capabilities",
                 defaultValue: true,
             },
             {
-                name: AppSetting.UserFlairCron,
+                name: AppSetting.UserFlairTimeframe,
+                type: "select",
+                label: "Post Flair Timeframe",
+                helpText:
+                    "What timeframe the bot should check to set flairs (eg hourly, daily, etc.)",
+                options: UserFlairTimeframeOptionChoices,
+                defaultValue: [UserFlairTimeframes.Monthly],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairText,
                 type: "string",
-                label: "User Flair Cron",
-                helpText: "When this should run in cron time",
-                defaultValue: "0 0 1 * *",
-                onValidate: validateCron,
+                label: "User Flair Text",
+                helpText:
+                    `It is recommended to end this with whatever timeframe you chose (eg, "Day", "Week", etc.)` +
+                    `followed by a space or something similar as this will continuously be incremented upwards` +
+                    `and will append new months (comma-separated) as they gain more`,
+                defaultValue: "Top Upvoted User Month ",
+                onValidate: stringFieldContainsText,
+            },
+            {
+                name: AppSetting.UserFlairTemplateID,
+                type: "string",
+                label: "User Flair Template ID",
+            },
+            {
+                name: AppSetting.UserFlairCSSClass,
+                type: "string",
+                label: "User Flair CSS Class",
+            },
+        ],
+    },
+    {
+        type: "group",
+        label: "Post Flair Related Message Settings",
+        fields: [
+            {
+                name: AppSetting.NotifyOnPostFlairSuccess,
+                type: "select",
+                label: "Notify on post flair update (success)?",
+                options: NotifyOnPostFlairSuccessReplyOptionChoices,
+                defaultValue: [PostFlairSuccessReplyOptions.NoReply],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairAwardSuccess,
+                type: "paragraph",
+                label: "Post Flair Award Success Message",
+                helpText: "Message to send when post flair is successfully set",
+                defaultValue: TemplateDefaults.PostFlairAwardSuccessMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnPostFlairFail,
+                type: "select",
+                label: "Notify on post flair update (fail)?",
+                options: NotifyOnPostFlairUpdateFailReplyOptionChoices,
+                defaultValue: [PostFlairUpdateFailReplyOptions.Off],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairAwardFail,
+                type: "paragraph",
+                label: "Post Flair Award Fail Message",
+                helpText:
+                    "Message to send when the bot tries to award a post flair, but there is an error",
+                defaultValue: TemplateDefaults.PostFlairAwardFailMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnPostFlairCronUpdateSuccess,
+                type: "select",
+                label: "Notify on post flair cron update (success)?",
+                options: PostFlairCronUpdateSuccessNotificationOptionChoices,
+                defaultValue: [
+                    PostFlairCronUpdateSuccessNotification.NotifyMods,
+                ],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairCronUpdateSuccessMessage,
+                type: "paragraph",
+                label: "Post Flair Cron Update Success Message",
+                helpText: "Message sent when the cron is updated successfully",
+                defaultValue:
+                    TemplateDefaults.PostFlairCronUpdateSuccessMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnPostFlairCronUpdateFail,
+                type: "select",
+                label: "Notify on post flair cron update (fail)?",
+                options: PostFlairCronUpdateFailNotificationOptionChoices,
+                defaultValue: [PostFlairCronUpdateFailNotification.NotifyMods],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairCronUpdateFailMessage,
+                type: "paragraph",
+                label: "Post Flair Cron Update Fail Message",
+                helpText: "Message sent when the cron update is unsuccessful",
+                defaultValue: TemplateDefaults.PostFlairCronUpdateFailMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+        ],
+    },
+    {
+        type: "group",
+        label: "User Flair Related Message Settings",
+        fields: [
+            {
+                name: AppSetting.NotifyOnUserFlairAwardSuccess,
+                type: "select",
+                label: "Notify on user flair update (success)?",
+                options: NotifyOnUserFlairUpdateFailReplyOptionChoices,
+                defaultValue: [UserFlairUpdateFailReplyOptions.Off],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairAwardSuccessMessage,
+                type: "paragraph",
+                label: "User Flair Award Success Message",
+                helpText:
+                    "Message to send when a user's flair is updated successfully",
+                defaultValue: TemplateDefaults.UserFlairAwardSuccessMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnUserFlairAwardFail,
+                type: "select",
+                label: "Notify on user flair update (fail)?",
+                options: NotifyOnUserFlairAwardFailReplyOptionChoices,
+                defaultValue: [UserFlairAwardFailReplyOptions.NotifyMods],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairAwardFailMessage,
+                type: "paragraph",
+                label: "User Flair Award Fail Message",
+                helpText:
+                    "Message to send when the bot tries to update a user's flair, but an error occurs",
+                defaultValue: TemplateDefaults.UserFlairAwardFailMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnUserFlairCronUpdateSuccess,
+                type: "select",
+                label: "Notify on user flair cron update (success)?",
+                options: UserFlairCronUpdateSuccessNotificationOptionChoices,
+                defaultValue: [
+                    UserFlairCronUpdateSuccessNotification.NotifyMods,
+                ],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairCronUpdateSuccessMessage,
+                type: "paragraph",
+                label: "User Flair Cron Update Success Message",
+                helpText:
+                    "Message to send when a user's flair is updated successfully",
+                defaultValue:
+                    TemplateDefaults.UserFlairCronUpdateSuccessMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+            {
+                name: AppSetting.NotifyOnUserFlairCronUpdateFail,
+                type: "select",
+                label: "Notify on user flair cron update (fail)?",
+                options: UserFlairCronUpdateFailNotificationOptionChoices,
+                defaultValue: [UserFlairCronUpdateFailNotification.NotifyMods],
+            },
+            {
+                name: AppSetting.UserFlairCronUpdateFailMessage,
+                type: "paragraph",
+                label: "User Flair Cron Update Fail Message",
+                helpText: "Message sent when the cron update is unsuccessful",
+                defaultValue: TemplateDefaults.UserFlairCronUpdateFailMessage,
+                onValidate: paragraphFieldContainsText,
+            },
+        ],
+    },
+    {
+        type: "group",
+        label: "Admin Settings",
+        fields: [
+            {
+                name: AppSetting.PostFlairCronUpdateCommand,
+                type: "string",
+                label: "Base Post Flair Cron Update Command",
+                helpText:
+                    "Can be used when making a comment (only usable by subreddit moderators)." +
+                    "There must be a single space between this and the actual cron for it to register properly.",
+                defaultValue: "/updatepostflaircron",
+                onValidate: stringFieldContainsText,
+            },
+            {
+                name: AppSetting.UserFlairCronUpdateCommand,
+                type: "string",
+                label: "Base User Flair Cron Update Command",
+                helpText:
+                    "Can be used when making a comment (only usable by subreddit moderators). " +
+                    "There must be a single space between this and the actual cron for it to register properly.",
+                defaultValue: "/updateuserflaircron",
+                onValidate: stringFieldContainsText,  
             },
         ],
     },
@@ -399,6 +688,19 @@ function selectFieldHasOptionChosen(
 ) {
     if (!event.value || event.value.length !== 1) {
         return "You must choose an option (even if this is an irrelevant setting)";
+    }
+}
+
+function stringFieldContainsText(
+    event: SettingsFormFieldValidatorEvent<string>,
+    _context: TriggerContext,
+): string | void {
+    if (typeof event.value !== "string") {
+        return "Value must be a string.";
+    }
+
+    if (event.value.length === 0) {
+        return "Field cannot be empty (even if this is an irrelevant setting).";
     }
 }
 

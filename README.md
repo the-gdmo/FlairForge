@@ -15,7 +15,7 @@ I recommend testing settings out on a test subreddit before deploying to a real 
 
 ## Supported Placeholders
 * `{{author}}`: The username of the poster. Will not contain 'u/'.
-* `{{week}}`: What week the flair was changed on relative to when the bot was installed.
+* `{{count}}`: Gets the current count of the timeframe specified.
 * `{{awardeeFlair}}`: Get the most up-to-date version of the awardee's flair.
 * `{{title}}`: Get the title of the post being actioned.
 * `{{postFlairValue}}`: Get the value of the post flair setting.
@@ -26,6 +26,9 @@ I recommend testing settings out on a test subreddit before deploying to a real 
 * `{{leaderboard}}`: Link to a page of the subreddit's leaderboard. Uses the Old Reddit version of this page.
 * `{{subreddit}}`: Get the name of the subreddit. Will not contain 'r/'.
 * `{{awardeePage}}`: Link to a recipient's individual page. Logs all points received and given that are not alternate commands.
+* `{{error}}`: Get the error associated with the content attempting to be actioned.
+* `{{cronUpdater}}`: The username of the moderator trying to update the cron.
+* `{{newCron}}`: Get the new cron value.
 
 ## Data Stored
 

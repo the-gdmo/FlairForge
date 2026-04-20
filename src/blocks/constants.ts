@@ -10,3 +10,9 @@ export const ADHOC_USER_FLAIR_JOB = "updateUserFlairAdhoc";
 // Job Cron
 export const CLEANUP_JOB_CRON = "0 23 * * *";
 export const MODINFO_CRON = "0 * * * *";
+
+export const HOURLY_CRON = "0 * * * *";
+export const DAILY_CRON = "0 0 * * *";
+export const WEEKLY_CRON = "0 0 * * 0";
+export const MONTHLY_CRON = "0 0 1 * *";
+export const YEARLY_CRON = "0 0 1 1 *";

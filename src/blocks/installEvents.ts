@@ -6,8 +6,13 @@ import {
     ADHOC_USER_FLAIR_JOB,
     CLEANUP_JOB,
     CLEANUP_JOB_CRON,
+    DAILY_CRON,
+    HOURLY_CRON,
     MODINFO_CRON,
+    MONTHLY_CRON,
     UPDATE_MODINFO_JOB,
+    WEEKLY_CRON,
+    YEARLY_CRON,
 } from "./constants";
 import {
     AppSetting,
@@ -33,20 +38,83 @@ export async function onAppInstallOrUpgrade(
 
     const settings = await context.settings.getAll();
 
-    const userFlairCron =
-        (settings[AppSetting.UserFlairCron] as string) ?? "0 0 1 * *";
-    const postFlairCron =
-        (settings[AppSetting.PostFlairCron] as string) ?? "0 0 1 * *";
+    const userFlairTimeframes = ((settings[
+        AppSetting.UserFlairCron
+    ] as string[]) ?? ["off"])[0];
 
-    await context.scheduler.runJob({
-        cron: userFlairCron,
-        name: ADHOC_USER_FLAIR_JOB,
-    });
+    const postFlairTimeframes = ((settings[
+        AppSetting.PostFlairCron
+    ] as string[]) ?? ["off"])[0];
 
-    await context.scheduler.runJob({
-        cron: postFlairCron,
-        name: ADHOC_POST_FLAIR_JOB,
-    });
+    switch (userFlairTimeframes) {
+        case UserFlairTimeframes.Off:
+            break;
+        case UserFlairTimeframes.Hourly:
+            await context.scheduler.runJob({
+                cron: HOURLY_CRON,
+                name: ADHOC_USER_FLAIR_JOB,
+            });
+            break;
+        case UserFlairTimeframes.Daily:
+            await context.scheduler.runJob({
+                cron: DAILY_CRON,
+                name: ADHOC_USER_FLAIR_JOB,
+            });
+            break;
+        case UserFlairTimeframes.Weekly:
+            await context.scheduler.runJob({
+                cron: WEEKLY_CRON,
+                name: ADHOC_USER_FLAIR_JOB,
+            });
+            break;
+        case UserFlairTimeframes.Monthly:
+            await context.scheduler.runJob({
+                cron: MONTHLY_CRON,
+                name: ADHOC_USER_FLAIR_JOB,
+            });
+            break;
+        case UserFlairTimeframes.Yearly:
+            await context.scheduler.runJob({
+                cron: YEARLY_CRON,
+                name: ADHOC_USER_FLAIR_JOB,
+            });
+            break;
+    }
+
+    switch (postFlairTimeframes) {
+        case PostFlairTimeframes.Off:
+            break;
+        case PostFlairTimeframes.Hourly:
+            await context.scheduler.runJob({
+                cron: HOURLY_CRON,
+                name: ADHOC_POST_FLAIR_JOB,
+            });
+            break;
+        case PostFlairTimeframes.Daily:
+            await context.scheduler.runJob({
+                cron: DAILY_CRON,
+                name: ADHOC_POST_FLAIR_JOB,
+            });
+            break;
+        case PostFlairTimeframes.Weekly:
+            await context.scheduler.runJob({
+                cron: WEEKLY_CRON,
+                name: ADHOC_POST_FLAIR_JOB,
+            });
+            break;
+        case PostFlairTimeframes.Monthly:
+            await context.scheduler.runJob({
+                cron: MONTHLY_CRON,
+                name: ADHOC_POST_FLAIR_JOB,
+            });
+            break;
+        case PostFlairTimeframes.Yearly:
+            await context.scheduler.runJob({
+                cron: YEARLY_CRON,
+                name: ADHOC_POST_FLAIR_JOB,
+            });
+            break;
+    }
 
     await context.scheduler.runJob({
         name: CLEANUP_JOB,
