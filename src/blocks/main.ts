@@ -19,10 +19,10 @@ import {
     UPDATE_MODINFO_JOB,
 } from "./constants";
 import { logger } from "./logger";
-import { addPostFlair } from "./triggers/events/update/postFlairUpdate";
+import { addPostFlair } from "./triggers/updateTypes/update/postFlairUpdate";
 import { getWeekKey, setWeekKey } from "./triggers/utils/redisKeys";
 import { getSubredditName } from "./utility";
-import { addUserFlair } from "./triggers/events/update/userFlairUpdate";
+import { addUserFlair } from "./triggers/updateTypes/update/userFlairUpdate";
 
 Devvit.addSettings(appSettings);
 

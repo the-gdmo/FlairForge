@@ -18,6 +18,8 @@
   "blocks": {
     "entry": "src/blocks/main.ts",
     "triggers": [
+      "onCommentCreate",
+      "onCommentUpdate",
       "onAppInstall",
       "onAppUpgrade"
     ]

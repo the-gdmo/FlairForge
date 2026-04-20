@@ -4,11 +4,16 @@ import {
     TriggerContext,
 } from "@devvit/public-api";
 
+// const cronRegex = /^((\*|([0-5]?\d)(-([0-5]?\d))?)(\/\d{1,2})?)\s((\*|(1?\d|2[0-3])(-(1?\d|2[0-3]))?)(\/\d{1,2})?)\s((\*|(0?[1-9]|[12]\d|3[01])(-(0?[1-9]|[12]\d|3[01]))?)(\/\d{1,2})?)\s((\*|(0?[1-9]|1[0-2])(-(0?[1-9]|1[0-2]))?)(\/\d{1,2})?)\s((\*|[0-6](-[0-6])?)(\/\d{1,2})?)$/;
+
 export enum AppSetting {
+    LeaderboardMode = "leaderboardMode",
+    LeaderboardName = "leaderboardName",
+    LeaderboardSize = "leaderboardSize",
     EnablePostFlair = "enablePostFlair",
-    PostFlairTimeframe = "postFlairTimeframe",
+    PostFlairTimeframes = "postFlairTimeframe",
     EnableUserFlair = "enableUserFlair",
-    UserFlairTimeframe = "userFlairTimeframe",
+    UserFlairTimeframes = "userFlairTimeframe",
     PostFlairText = "postFlairValue",
     UserFlairText = "userFlairValue",
     UserFlairTemplateID = "userFlairTemplateID",
@@ -19,6 +24,10 @@ export enum AppSetting {
     PostFlairAwardSuccess = "postFlairAwardSuccess",
     NotifyOnPostFlairFail = "notifyOnPostFlairFail",
     PostFlairAwardFail = "postFlairAwardFail",
+    NotifyOnPostFlairCronUpdateFailNormalUser = "notifyOnPostFlairCronUpdateFailNormalUser",
+    PostFlairCronUpdateFailNormalUserMessage = "PostFlairCronUpdateFailNormalUserMessage",
+    NotifyOnUserFlairCronUpdateFailNormalUser = "notifyOnPostFlairCronUpdateFailNormalUser",
+    UserFlairCronUpdateFailNormalUserMessage = "PostFlairCronUpdateFailNormalUserMessage",
     NotifyOnPostFlairCronUpdateSuccess = "notifyOnPostFlairCronUpdateSuccess",
     PostFlairCronUpdateSuccessMessage = "postFlairCronUpdateSuccessMessage",
     NotifyOnPostFlairCronUpdateFail = "notifyOnPostFlairCronUpdateFail",
@@ -33,6 +42,9 @@ export enum AppSetting {
     UserFlairCronUpdateFailMessage = "userFlairCronUpdateFailMessage",
     PostFlairCronUpdateCommand = "postFlairCronUpdateCommand",
     UserFlairCronUpdateCommand = "userFlairCronUpdateCommand",
+    DiscordServerLink = "discordServerLink",
+    PostFlairTimeframeLabel = "postFlairTimeframeLabel",
+    UserFlairTimeframeLabel = "userFlairTimeframeLabel",
 }
 
 export enum TemplateDefaults {
@@ -44,6 +56,8 @@ export enum TemplateDefaults {
     UserFlairAwardFailMessage = "u/{{awardee}}'s flair was unable to be set on [this post]({{permalink}}).",
     UserFlairCronUpdateSuccessMessage = "u/{{cronUpdater}} has successfully updated the cron for user flairing to **{{newCron}}**.",
     UserFlairCronUpdateFailMessage = "u/{{cronUpdater}} was unable to update the user flair cron. Error:\n\n> {{error}}",
+    PostFlairCronUpdateFailNormalUserMessage = "u/{{cronUpdater}}, you do not have permission to change the cron for post flair.",
+    UserFlairCronUpdateFailNormalUserMessage = "u/{{cronUpdater}}, you do not have permission to change the cron for user flair.",
 }
 
 export enum PostFlairTimeframes {
@@ -79,6 +93,21 @@ export const PostFlairTimeframeOptionChoices = [
     {
         label: "Yearly",
         value: PostFlairTimeframes.Yearly,
+    },
+];
+
+export enum LeaderboardMode {
+    Off = "off",
+    ModOnly = "modonly",
+    Public = "public",
+}
+
+const LeaderboardModeOptionChoices = [
+    { label: "Off", value: LeaderboardMode.Off },
+    { label: "Mod Only", value: LeaderboardMode.ModOnly },
+    {
+        label: "Default settings for wiki",
+        value: LeaderboardMode.Public,
     },
 ];
 
@@ -125,21 +154,6 @@ export enum PostFlairCronUpdateSuccessNotification {
     NotifyMods = "notifymods",
 }
 
-// const ExistingFlairHandlingOptionChoices = [
-//     {
-//         label: "Set flair to new score, if flair unset or flair is numeric (With Symbol)",
-//         value: ExistingFlairOverwriteHandling.OverwriteNumericSymbol,
-//     },
-//     {
-//         label: "Set flair to new score, if flair unset or flair is numeric (Without Symbol)",
-//         value: ExistingFlairOverwriteHandling.OverwriteNumeric,
-//     },
-//     {
-//         label: "Never set flair",
-//         value: ExistingFlairOverwriteHandling.NeverSet,
-//     },
-// ];
-
 export const PostFlairCronUpdateSuccessNotificationOptionChoices = [
     {
         label: "No Notification",
@@ -177,6 +191,48 @@ export const PostFlairCronUpdateFailNotificationOptionChoices = [
     {
         label: "Send a modmail",
         value: PostFlairCronUpdateFailNotification.NotifyMods,
+    },
+];
+
+export enum PostFlairNormalUserCronUpdateFailNotification {
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+    NotifyMods = "notifymods",
+}
+
+export const PostFlairNormalUserCronUpdateFailNotificationOptionChoices = [
+    {
+        label: "Send user a private message",
+        value: PostFlairNormalUserCronUpdateFailNotification.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: PostFlairNormalUserCronUpdateFailNotification.ReplyAsComment,
+    },
+    {
+        label: "Send a modmail",
+        value: PostFlairNormalUserCronUpdateFailNotification.NotifyMods,
+    },
+];
+
+export enum UserFlairNormalUserCronUpdateFailNotification {
+    ReplyByPM = "replybypm",
+    ReplyAsComment = "replybycomment",
+    NotifyMods = "notifymods",
+}
+
+export const UserFlairNormalUserCronUpdateFailNotificationOptionChoices = [
+    {
+        label: "Send user a private message",
+        value: UserFlairNormalUserCronUpdateFailNotification.ReplyByPM,
+    },
+    {
+        label: "Reply as comment",
+        value: UserFlairNormalUserCronUpdateFailNotification.ReplyAsComment,
+    },
+    {
+        label: "Send a modmail",
+        value: UserFlairNormalUserCronUpdateFailNotification.NotifyMods,
     },
 ];
 
@@ -427,7 +483,7 @@ export const appSettings: SettingsFormField[] = [
                 defaultValue: true,
             },
             {
-                name: AppSetting.PostFlairTimeframe,
+                name: AppSetting.PostFlairTimeframes,
                 type: "select",
                 label: "Post Flair Timeframe",
                 helpText:
@@ -435,6 +491,14 @@ export const appSettings: SettingsFormField[] = [
                 options: PostFlairTimeframeOptionChoices,
                 defaultValue: [PostFlairTimeframes.Monthly],
                 onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairTimeframeLabel,
+                type: "string",
+                label: "Post Flair Timeframe Label",
+                helpText: "Will be added to the end of the post's flair",
+                onValidate: validateTimeframe,
+                defaultValue: "Month",
             },
             {
                 name: AppSetting.PostFlairText,
@@ -467,14 +531,22 @@ export const appSettings: SettingsFormField[] = [
                 defaultValue: true,
             },
             {
-                name: AppSetting.UserFlairTimeframe,
+                name: AppSetting.UserFlairTimeframes,
                 type: "select",
-                label: "Post Flair Timeframe",
+                label: "User Flair Timeframe",
                 helpText:
-                    "What timeframe the bot should check to set flairs (eg hourly, daily, etc.)",
+                    "What timeframe the bot should check to set user flairs (eg hourly, daily, etc.)",
                 options: UserFlairTimeframeOptionChoices,
                 defaultValue: [UserFlairTimeframes.Monthly],
                 onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairTimeframeLabel,
+                type: "string",
+                label: "User Flair Timeframe Label",
+                helpText: "Will be added to the end of the post's flair",
+                onValidate: validateTimeframe,
+                defaultValue: "Month",
             },
             {
                 name: AppSetting.UserFlairText,
@@ -484,7 +556,7 @@ export const appSettings: SettingsFormField[] = [
                     `It is recommended to end this with whatever timeframe you chose (eg, "Day", "Week", etc.)` +
                     `followed by a space or something similar as this will continuously be incremented upwards` +
                     `and will append new months (comma-separated) as they gain more`,
-                defaultValue: "Top Upvoted User Month ",
+                defaultValue: "Top Upvoted User",
                 onValidate: stringFieldContainsText,
             },
             {
@@ -571,6 +643,25 @@ export const appSettings: SettingsFormField[] = [
                 defaultValue: TemplateDefaults.PostFlairCronUpdateFailMessage,
                 onValidate: paragraphFieldContainsText,
             },
+            {
+                name: AppSetting.NotifyOnPostFlairCronUpdateFailNormalUser,
+                type: "select",
+                label: "Notify on post flair cron update (fail, non-mod)?",
+                options:
+                    PostFlairNormalUserCronUpdateFailNotificationOptionChoices,
+                defaultValue: [
+                    PostFlairNormalUserCronUpdateFailNotification.NotifyMods,
+                ],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.PostFlairCronUpdateFailNormalUserMessage,
+                type: "paragraph",
+                label: "Post Flair Cron Update Attempted By Non-Mod Message",
+                defaultValue:
+                    TemplateDefaults.PostFlairCronUpdateFailNormalUserMessage,
+                onValidate: paragraphFieldContainsText,
+            },
         ],
     },
     {
@@ -646,6 +737,25 @@ export const appSettings: SettingsFormField[] = [
                 defaultValue: TemplateDefaults.UserFlairCronUpdateFailMessage,
                 onValidate: paragraphFieldContainsText,
             },
+            {
+                name: AppSetting.NotifyOnUserFlairCronUpdateFailNormalUser,
+                type: "select",
+                label: "Notify on user flair cron update (fail, non-mod)?",
+                options:
+                    UserFlairNormalUserCronUpdateFailNotificationOptionChoices,
+                defaultValue: [
+                    UserFlairNormalUserCronUpdateFailNotification.NotifyMods,
+                ],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.UserFlairCronUpdateFailNormalUserMessage,
+                type: "paragraph",
+                label: "User Flair Cron Update Attempted By Non-Mod Message",
+                defaultValue:
+                    TemplateDefaults.UserFlairCronUpdateFailNormalUserMessage,
+                onValidate: paragraphFieldContainsText,
+            },
         ],
     },
     {
@@ -655,33 +765,66 @@ export const appSettings: SettingsFormField[] = [
             {
                 name: AppSetting.PostFlairCronUpdateCommand,
                 type: "string",
-                label: "Base Post Flair Cron Update Command",
+                label: "Post Flair Cron Update Command",
                 helpText:
-                    "Can be used when making a comment (only usable by subreddit moderators)." +
-                    "There must be a single space between this and the actual cron for it to register properly.",
+                    "You must use this in a comment any time you change the cron in the app settings",
                 defaultValue: "/updatepostflaircron",
                 onValidate: stringFieldContainsText,
             },
             {
                 name: AppSetting.UserFlairCronUpdateCommand,
                 type: "string",
-                label: "Base User Flair Cron Update Command",
+                label: "User Flair Cron Update Command",
                 helpText:
-                    "Can be used when making a comment (only usable by subreddit moderators). " +
-                    "There must be a single space between this and the actual cron for it to register properly.",
+                    "You must use this in a comment any time you change the cron in the app settings",
                 defaultValue: "/updateuserflaircron",
-                onValidate: stringFieldContainsText,  
+                onValidate: stringFieldContainsText,
+            },
+            {
+                name: AppSetting.LeaderboardMode,
+                type: "select",
+                options: LeaderboardModeOptionChoices,
+                label: "Wiki Leaderboard Mode",
+                multiSelect: false,
+                defaultValue: [LeaderboardMode.Off],
+                onValidate: selectFieldHasOptionChosen,
+            },
+            {
+                name: AppSetting.LeaderboardSize,
+                type: "number",
+                label: "Leaderboard Size",
+                helpText: "Number of users to show on the leaderboard (1-100)",
+                defaultValue: 50,
+                onValidate: ({ value }) => {
+                    if (value !== undefined && (value < 1 || value > 100)) {
+                        return "Value should be between 1 and 100";
+                    }
+                },
+            },
+            {
+                name: AppSetting.LeaderboardName,
+                type: "string",
+                label: "Leaderboard Wiki Name",
+                helpText:
+                    "Name of the wiki page for your subreddit's leaderboard (e.g. leaderboard). Singular form is recommended as there is only one leaderboard per subreddit",
+                defaultValue: "leaderboard",
+                onValidate: ({ value }) => {
+                    if (!value || value.trim() === "") {
+                        return "You must specify a wiki page name";
+                    }
+                },
+            },
+            {
+                //DiscordServerLink
+                name: AppSetting.DiscordServerLink,
+                type: "string",
+                label: "Discord Server Link",
+                helpText:
+                    "Optional. Link to your subreddit's discord server. A non-expiring link is recommended.",
             },
         ],
     },
 ];
-
-function isFlairTemplateValid(event: SettingsFormFieldValidatorEvent<string>) {
-    const flairTemplateRegex = /^[0-9a-f]{8}(?:-[0-9a-f]{4}){4}[0-9a-f]{8}$/i;
-    if (event.value && !flairTemplateRegex.test(event.value)) {
-        return "Invalid flair template ID";
-    }
-}
 
 function selectFieldHasOptionChosen(
     event: SettingsFormFieldValidatorEvent<string[]>,
@@ -717,17 +860,17 @@ function paragraphFieldContainsText(
     }
 }
 
-function validateCron(event: SettingsFormFieldValidatorEvent<string>) {
-    const cronRegex =
-        /^((\*|([0-5]?\d)(-([0-5]?\d))?)(\/\d{1,2})?)\s((\*|(1?\d|2[0-3])(-(1?\d|2[0-3]))?)(\/\d{1,2})?)\s((\*|(0?[1-9]|[12]\d|3[01])(-(0?[1-9]|[12]\d|3[01]))?)(\/\d{1,2})?)\s((\*|(0?[1-9]|1[0-2])(-(0?[1-9]|1[0-2]))?)(\/\d{1,2})?)\s((\*|[0-6](-[0-6])?)(\/\d{1,2})?)$/;
-
-    if (!event.value || event.value.length === 0) {
-        return "Field cannot be empty (even if this is an irrelevant setting).";
+function validateTimeframe(event: SettingsFormFieldValidatorEvent<string>) {
+    if (!event.value || event.value.trim() === "") {
+        return `A timeframe must be specified (even if you have the timeframe set to "Disabled")`;
     }
-    if (typeof event.value !== "string") {
-        return "Value must be a string.";
-    }
-    if (!cronRegex.test(event.value)) {
-        return "Field must contain a valid cron. If you do not know how to do this, check [this site](https://crontab.cronhub.io/).";
+    if (
+        event.value.trim().includes("Hour") ||
+        event.value.trim().includes("Day") ||
+        event.value.trim().includes("Week") ||
+        event.value.trim().includes("Month") ||
+        event.value.trim().includes("Year")
+    ) {
+        return "You must specify a valid timeframe. Valid timeframes: Hour, Day, Week, Month, Year";
     }
 }

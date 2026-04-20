@@ -1,3 +1,5 @@
+export const USER_USER_HISTORY = "userUserHistory";
+export const USER_FLAIR_HISTORY = "userFlairHistory";
 // Job Names
 export const UPDATE_LEADERBOARD_JOB = "updateLeaderboard";
 export const UPDATE_MODINFO_JOB = "updateModInfo";

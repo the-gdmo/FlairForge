@@ -39,11 +39,11 @@ export async function onAppInstallOrUpgrade(
     const settings = await context.settings.getAll();
 
     const userFlairTimeframes = ((settings[
-        AppSetting.UserFlairCron
+        AppSetting.UserFlairTimeframes
     ] as string[]) ?? ["off"])[0];
 
     const postFlairTimeframes = ((settings[
-        AppSetting.PostFlairCron
+        AppSetting.PostFlairTimeframes
     ] as string[]) ?? ["off"])[0];
 
     switch (userFlairTimeframes) {
