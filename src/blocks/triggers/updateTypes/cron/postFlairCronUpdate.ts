@@ -50,9 +50,11 @@ export async function updatePostFlairCron(
         logger.warn("❌ Non-mod attempted cron update", {
             user: author.username,
         });
-        const postFlairCronUpdateFailNormalUserNotificationSetting = ((settings[
+        const postFlairCronUpdateFailNormalUserNotificationSetting = (settings[
             AppSetting.NotifyOnPostFlairCronUpdateFailNormalUser
-        ] as string[]) ?? ["none"])[0];
+        ] as PostFlairNormalUserCronUpdateFailNotification) ?? [
+            PostFlairNormalUserCronUpdateFailNotification.NotifyMods,
+        ];
 
         const nonModTriedToChangePostFlairCronTemplate = formatMessage(
             (settings[
@@ -101,7 +103,7 @@ export async function updatePostFlairCron(
     ] as PostFlairTimeframes;
 
     // 🧠 Map timeframe → cron
-    let newCron: string = "";
+    let newCron: string;
 
     switch (postFlairTimeframes) {
         case PostFlairTimeframes.Hourly:

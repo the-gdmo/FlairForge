@@ -40,11 +40,11 @@ export async function onAppInstallOrUpgrade(
 
     const userFlairTimeframes = ((settings[
         AppSetting.UserFlairTimeframes
-    ] as string[]) ?? ["off"])[0];
+    ] as UserFlairTimeframes) ?? [UserFlairTimeframes.Monthly])[0];
 
     const postFlairTimeframes = ((settings[
         AppSetting.PostFlairTimeframes
-    ] as string[]) ?? ["off"])[0];
+    ] as PostFlairTimeframes) ?? [PostFlairTimeframes.Monthly])[0];
 
     switch (userFlairTimeframes) {
         case UserFlairTimeframes.Hourly:

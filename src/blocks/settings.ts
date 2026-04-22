@@ -25,7 +25,7 @@ export enum AppSetting {
     NotifyOnPostFlairFail = "notifyOnPostFlairFail",
     PostFlairAwardFail = "postFlairAwardFail",
     NotifyOnPostFlairCronUpdateFailNormalUser = "notifyOnPostFlairCronUpdateFailNormalUser",
-    PostFlairCronUpdateFailNormalUserMessage = "PostFlairCronUpdateFailNormalUserMessage",
+    PostFlairCronUpdateFailNormalUserMessage = "postFlairCronUpdateFailNormalUserMessage",
     NotifyOnUserFlairCronUpdateFailNormalUser = "notifyOnUserFlairCronUpdateFailNormalUser",
     UserFlairCronUpdateFailNormalUserMessage = "userFlairCronUpdateFailNormalUserMessage",
     NotifyOnPostFlairCronUpdateSuccess = "notifyOnPostFlairCronUpdateSuccess",
