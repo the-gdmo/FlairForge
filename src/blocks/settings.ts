@@ -26,8 +26,8 @@ export enum AppSetting {
     PostFlairAwardFail = "postFlairAwardFail",
     NotifyOnPostFlairCronUpdateFailNormalUser = "notifyOnPostFlairCronUpdateFailNormalUser",
     PostFlairCronUpdateFailNormalUserMessage = "PostFlairCronUpdateFailNormalUserMessage",
-    NotifyOnUserFlairCronUpdateFailNormalUser = "notifyOnPostFlairCronUpdateFailNormalUser",
-    UserFlairCronUpdateFailNormalUserMessage = "PostFlairCronUpdateFailNormalUserMessage",
+    NotifyOnUserFlairCronUpdateFailNormalUser = "notifyOnUserFlairCronUpdateFailNormalUser",
+    UserFlairCronUpdateFailNormalUserMessage = "userFlairCronUpdateFailNormalUserMessage",
     NotifyOnPostFlairCronUpdateSuccess = "notifyOnPostFlairCronUpdateSuccess",
     PostFlairCronUpdateSuccessMessage = "postFlairCronUpdateSuccessMessage",
     NotifyOnPostFlairCronUpdateFail = "notifyOnPostFlairCronUpdateFail",
@@ -61,7 +61,6 @@ export enum TemplateDefaults {
 }
 
 export enum PostFlairTimeframes {
-    Off = "off",
     Hourly = "hourly",
     Daily = "daily",
     Weekly = "weekly",
@@ -70,10 +69,6 @@ export enum PostFlairTimeframes {
 }
 
 export const PostFlairTimeframeOptionChoices = [
-    {
-        label: "Disabled",
-        value: PostFlairTimeframes.Off,
-    },
     {
         label: "Hourly",
         value: PostFlairTimeframes.Hourly,
@@ -112,7 +107,6 @@ const LeaderboardModeOptionChoices = [
 ];
 
 export enum UserFlairTimeframes {
-    Off = "off",
     Hourly = "hourly",
     Daily = "daily",
     Weekly = "weekly",
@@ -121,10 +115,6 @@ export enum UserFlairTimeframes {
 }
 
 export const UserFlairTimeframeOptionChoices = [
-    {
-        label: "Disabled",
-        value: UserFlairTimeframes.Off,
-    },
     {
         label: "Hourly",
         value: UserFlairTimeframes.Hourly,

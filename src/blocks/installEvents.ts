@@ -47,8 +47,6 @@ export async function onAppInstallOrUpgrade(
     ] as string[]) ?? ["off"])[0];
 
     switch (userFlairTimeframes) {
-        case UserFlairTimeframes.Off:
-            break;
         case UserFlairTimeframes.Hourly:
             await context.scheduler.runJob({
                 cron: HOURLY_CRON,
@@ -82,8 +80,6 @@ export async function onAppInstallOrUpgrade(
     }
 
     switch (postFlairTimeframes) {
-        case PostFlairTimeframes.Off:
-            break;
         case PostFlairTimeframes.Hourly:
             await context.scheduler.runJob({
                 cron: HOURLY_CRON,

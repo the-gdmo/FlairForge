@@ -104,19 +104,6 @@ export async function updatePostFlairCron(
     let newCron: string = "";
 
     switch (postFlairTimeframes) {
-        case PostFlairTimeframes.Off:
-        const currentJobs = await context.scheduler.listJobs();
-                    const existingJob = currentJobs.find(
-                        (job) => job.name === ADHOC_POST_FLAIR_JOB,
-                    );
-                    if (!existingJob) return;
-        
-                    await Promise.all(
-                        currentJobs.map((_) =>
-                            context.scheduler.cancelJob(existingJob.id),
-                        ),
-                    );
-                    break;
         case PostFlairTimeframes.Hourly:
             newCron = HOURLY_CRON;
             break;

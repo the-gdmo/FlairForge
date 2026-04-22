@@ -48,27 +48,14 @@ export async function updateUserFlairCron(
         return;
     }
 
-    const timeframe =
+    const userFlairTimeframes =
         (settings[AppSetting.UserFlairTimeframes] as UserFlairTimeframes) ??
         UserFlairTimeframes.Monthly;
 
     // 🧠 Map timeframe → cron
     let newCron: string = "";
 
-    switch (timeframe) {
-        case UserFlairTimeframes.Off:
-            const currentJobs = await context.scheduler.listJobs();
-            const existingJob = currentJobs.find(
-                (job) => job.name === ADHOC_USER_FLAIR_JOB,
-            );
-            if (!existingJob) return;
-
-            await Promise.all(
-                currentJobs.map((_) =>
-                    context.scheduler.cancelJob(existingJob.id),
-                ),
-            );
-            break;
+    switch (userFlairTimeframes) {
         case UserFlairTimeframes.Hourly:
             newCron = HOURLY_CRON;
             break;
@@ -83,8 +70,6 @@ export async function updateUserFlairCron(
             break;
         case UserFlairTimeframes.Yearly:
             newCron = YEARLY_CRON;
-            break;
-        default:
             break;
     }
 

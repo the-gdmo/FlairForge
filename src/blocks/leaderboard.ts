@@ -8,10 +8,7 @@ import {
     TriggerContext,
     WikiPage,
 } from "@devvit/public-api";
-import {
-    USER_FLAIR_HISTORY,
-    USER_USER_HISTORY,
-} from "./constants";
+import { USER_FLAIR_HISTORY, USER_USER_HISTORY } from "./constants";
 import { AppSetting } from "./settings";
 
 export async function updateLeaderboard(
@@ -193,7 +190,10 @@ ${buildUserTable(userHistory)}
         reason: "Update user flair history",
     });
 
-    logger.info("📄 User dual flair wiki updated", { username });
+    logger.info("📄 User dual flair wiki updated", {
+        username,
+        subreddit: subredditName,
+    });
 }
 
 function modInfoTemplate(subredditName: string): string {
